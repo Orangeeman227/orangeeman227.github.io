@@ -718,18 +718,24 @@
         </div>
       </div>
 
-      <form id="contact-form" action="https://formspree.io/f/xojgjvwe" method="POST">
+      
+      <form id="contact-form">
+        <div data-fs-success class="form-message form-message-success"></div>
+        <div data-fs-error class="form-message form-message-error"></div>
+ 
         <div class="field">
           <label for="name">Name</label>
-          <input id="name" type="text" placeholder="Your name" required>
+          <input id="name" name="name" type="text" placeholder="Your name" data-fs-field required>
+          <span class="field-error" data-fs-error="name"></span>
         </div>
         <div class="field">
           <label for="contact-method">Best way to reach you</label>
-          <input id="contact-method" type="text" placeholder="Phone or email">
+          <input id="contact-method" name="contact_method" type="text" placeholder="Phone or email" data-fs-field required>
+          <span class="field-error" data-fs-error="contact_method"></span>
         </div>
         <div class="field">
           <label for="issue">What's going on?</label>
-          <select id="issue">
+          <select id="issue" name="issue" data-fs-field>
             <option>Wi‑Fi / network issue</option>
             <option>Slow or broken computer</option>
             <option>Smart home install</option>
@@ -740,9 +746,11 @@
         </div>
         <div class="field">
           <label for="details">Details</label>
-          <textarea id="details" rows="4" placeholder="Tell me a bit about the problem..."></textarea>
+          <textarea id="details" name="details" rows="4" placeholder="Tell me a bit about the problem..." data-fs-field></textarea>
+          <span class="field-error" data-fs-error="details"></span>
         </div>
-        <button type="submit" class="btn">Send request</button>
+        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+        <button type="submit" class="btn" data-fs-submit-btn>Send request</button>
       </form>
     </div>
   </section>
@@ -762,6 +770,25 @@
     </div>
   </div>
 </footer>
+
+
+<script>
+  window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
+  formspree('initForm', {
+    formElement: '#contact-form',
+    formId: 'xojgjvwe',
+    onSuccess: function () {
+      document.querySelector('[data-fs-success]').textContent =
+        "Thanks — I'll be in touch within one business day.";
+    },
+    onError: function () {
+      document.querySelector('[data-fs-error]').textContent =
+        "Something went wrong. Try again, or email eric@ericmctechsupport.com directly.";
+    }
+  });
+</script>
+<script src="https://unpkg.com/@formspree/ajax@1" defer></script>
+
 
 </body>
 </html>
